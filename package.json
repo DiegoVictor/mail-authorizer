@@ -1,0 +1,9 @@
+{
+  "name": "mail-authorizer",
+  "version": "1.0.0",
+  "main": "serverless.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.16.0"
+  },
+}
