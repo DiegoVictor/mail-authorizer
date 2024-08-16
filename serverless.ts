@@ -32,6 +32,51 @@ const serverlessConfiguration: AWS = {
     },
   },
   resources: {
+    Resources: {
+      ContentBucket: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          BucketName: 'mailauthorizer-content',
+        },
+      },
+      ContentBucketPolicy: {
+        Type: 'AWS::S3::BucketPolicy',
+        Properties: {
+          Bucket: {
+            Ref: 'ContentBucket',
+          },
+          PolicyDocument: {
+            Statement: [
+              {
+                Effect: 'Allow',
+                Principal: {
+                  AWS: {
+                    'Fn::Join': [
+                      '',
+                      [
+                        'arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ',
+                        { Ref: 'CloudFrontOriginAccessIdentity' },
+                      ],
+                    ],
+                  },
+                },
+                Action: 's3:GetObject',
+                Resource: {
+                  'Fn::Join': [
+                    '',
+                    [
+                      {
+                        'Fn::GetAtt': ['ContentBucket', 'Arn'],
+                      },
+                      '/*',
+                    ],
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
   },
 };
 
