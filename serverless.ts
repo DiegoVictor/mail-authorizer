@@ -77,6 +77,37 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
+      FileDynamoDBTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: 'file',
+          AttributeDefinitions: [
+            {
+              AttributeName: 'id',
+              AttributeType: 'S',
+            },
+            {
+              AttributeName: 'createdAt',
+              AttributeType: 'S',
+            },
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'id',
+              KeyType: 'HASH',
+            },
+            {
+              AttributeName: 'createdAt',
+              KeyType: 'RANGE',
+            },
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
+          },
+        },
+      },
+    },
   },
 };
 
