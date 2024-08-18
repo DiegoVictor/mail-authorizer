@@ -1,4 +1,6 @@
 import type { AWS } from '@serverless/typescript';
+
+import auth from '@functions/auth';
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
   frameworkVersion: '3',
@@ -17,6 +19,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   functions: {
+    auth,
   },
   package: { individually: true },
   custom: {
