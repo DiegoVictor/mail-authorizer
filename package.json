@@ -9,6 +9,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.623.0",
     "@aws-sdk/client-ses": "^3.623.0",
+    "@aws-sdk/util-dynamodb": "^3.624.0",
     "totp-generator": "^1.0.0",
     "zod": "^3.23.8"
   },
