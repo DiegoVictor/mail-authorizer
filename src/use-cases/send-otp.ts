@@ -1,4 +1,9 @@
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { SES } from '@aws-sdk/client-ses';
+import { marshall } from '@aws-sdk/util-dynamodb';
 import { TOTP } from 'totp-generator';
+import { failure } from '@libs/failure';
+import { success } from '@libs/success';
 
 const sendOtp = async (email: string) => {
   const timestamp = Date.now() + 30 * 1000;
