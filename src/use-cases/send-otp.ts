@@ -36,6 +36,25 @@ const sendOtp = async (email: string) => {
   if (httpStatusCode !== 200) {
     return failure(500, 'Failed to send email. Please try again later.');
   }
+
+  try {
+    const expiresAt = new Date(expires);
+
+    const dynamodb = new DynamoDB();
+    await dynamodb.putItem({
+      TableName: 'totp',
+      Item: marshall({
+        email,
+        otp,
+        expiresAt: expiresAt.toISOString(),
+      }),
+    });
+  } catch (err) {
+    console.error(err);
+    return failure(500, 'Internal Server Error');
+  }
+
+  return success(204);
 };
 
 export { sendOtp };
