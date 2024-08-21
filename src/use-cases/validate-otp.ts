@@ -17,6 +17,12 @@ const validateOtp = async (email: string, otp: string) => {
     return failure(400, 'Invalid code');
   }
 
+  const now = new Date();
+  const expiresAt = new Date(totp.expiresAt);
+  if (expiresAt < now) {
+    return failure(400, 'Code expired');
+  }
+
 };
 
 export { validateOtp };
