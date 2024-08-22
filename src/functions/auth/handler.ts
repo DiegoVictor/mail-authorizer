@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { sendOtp } from '@use-cases/send-otp';
+import { validateOtp } from '@use-cases/validate-otp';
 
 export const main = async (event: APIGatewayProxyEvent) => {
   const schema = z.object({
@@ -18,6 +19,12 @@ export const main = async (event: APIGatewayProxyEvent) => {
       }),
     };
   }
+
+  const { email, otp } = data;
+  if (otp) {
+    const result = await validateOtp(email, otp);
+  }
+
   const result = await sendOtp(email);
   return {
     statusCode: result.httpCode,
