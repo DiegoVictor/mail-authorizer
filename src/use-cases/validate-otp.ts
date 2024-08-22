@@ -1,6 +1,7 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { failure } from '@libs/failure';
+import { success } from '@libs/success';
 
 const validateOtp = async (email: string, otp: string) => {
   const dynamodb = new DynamoDB();
@@ -23,6 +24,14 @@ const validateOtp = async (email: string, otp: string) => {
     return failure(400, 'Code expired');
   }
 
+  await dynamodb.deleteItem({
+    TableName: 'totp',
+    Key: marshall({
+      email,
+    }),
+  });
+
+  return success();
 };
 
 export { validateOtp };
