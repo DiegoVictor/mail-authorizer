@@ -23,6 +23,13 @@ export const main = async (event: APIGatewayProxyEvent) => {
   const { email, otp } = data;
   if (otp) {
     const result = await validateOtp(email, otp);
+
+    if (!result.isSuccess()) {
+      return {
+        statusCode: result.httpCode,
+        body: JSON.stringify(result.response),
+      };
+    }
   }
 
   const result = await sendOtp(email);
