@@ -10,11 +10,13 @@
     "@aws-sdk/client-dynamodb": "^3.623.0",
     "@aws-sdk/client-ses": "^3.623.0",
     "@aws-sdk/util-dynamodb": "^3.624.0",
+    "jsonwebtoken": "^9.0.2",
     "totp-generator": "^1.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.0.0",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^14.18.63",
     "esbuild": "^0.14.11",
