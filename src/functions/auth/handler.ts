@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { sendOtp } from '@use-cases/send-otp';
 import { validateOtp } from '@use-cases/validate-otp';
+import { createToken } from '@use-cases/create-token';
 
 export const main = async (event: APIGatewayProxyEvent) => {
   const schema = z.object({
@@ -30,6 +31,12 @@ export const main = async (event: APIGatewayProxyEvent) => {
         body: JSON.stringify(result.response),
       };
     }
+
+    const token = createToken(email);
+    return {
+      statusCode: result.httpCode,
+      body: JSON.stringify({ token }),
+    };
   }
 
   const result = await sendOtp(email);
