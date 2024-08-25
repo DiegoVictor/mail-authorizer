@@ -4,6 +4,7 @@ import { marshall } from '@aws-sdk/util-dynamodb';
 import { TOTP } from 'totp-generator';
 import { failure } from '@libs/failure';
 import { success } from '@libs/success';
+import { TOTP_TABLE_NAME } from '@libs/constants';
 
 const sendOtp = async (email: string) => {
   const timestamp = Date.now() + 30 * 1000;
@@ -47,7 +48,7 @@ const sendOtp = async (email: string) => {
 
     const dynamodb = new DynamoDB();
     await dynamodb.putItem({
-      TableName: 'totp',
+      TableName: TOTP_TABLE_NAME,
       Item: marshall({
         email,
         otp,
