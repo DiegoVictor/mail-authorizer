@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 
 import auth from '@functions/auth';
+import { FILES_TABLE_NAME } from '@libs/constants';
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
   frameworkVersion: '3',
@@ -81,10 +82,10 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
-      FileDynamoDBTable: {
+      FilesDynamoDBTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
-          TableName: 'file',
+          TableName: FILES_TABLE_NAME,
           AttributeDefinitions: [
             {
               AttributeName: 'id',
