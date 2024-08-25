@@ -1,4 +1,7 @@
-import { randomBytes, randomInt } from 'crypto';
+import { randomBytes, randomInt } from 'node:crypto';
+
+export const secret = (size = 16) => randomBytes(size).toString('hex');
+
 export const totp = (size = 8) =>
   randomBytes(size)
     .toString('hex')
