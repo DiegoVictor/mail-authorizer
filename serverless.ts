@@ -19,6 +19,9 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       JWT_SECRET: secret(),
       NOREPLY_EMAIL_ADDRESS: 'no-reply@mailauthorizer.com',
+      CONTENT_BUCKET: {
+        Ref: 'ContentBucket',
+      },
     },
   },
   functions: {
