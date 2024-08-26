@@ -23,6 +23,23 @@ const serverlessConfiguration: AWS = {
         Ref: 'ContentBucket',
       },
     },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: [
+              'dynamodb:PutItem',
+              'dynamodb:GetItem',
+              'dynamodb:DeleteItem',
+              'secretsmanager:GetSecretValue',
+              'ses:SendEmail',
+            ],
+            Resource: '*',
+          },
+        ],
+      },
+    },
   },
   functions: {
     auth,
