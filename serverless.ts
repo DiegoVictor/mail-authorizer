@@ -1,7 +1,9 @@
 import type { AWS } from '@serverless/typescript';
 
 import auth from '@functions/auth';
-import { FILES_TABLE_NAME } from '@libs/constants';
+import { secret } from '@libs/generate';
+import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
+
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
   frameworkVersion: '3',
@@ -125,6 +127,28 @@ const serverlessConfiguration: AWS = {
             {
               AttributeName: 'createdAt',
               KeyType: 'RANGE',
+            },
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
+          },
+        },
+      },
+      TotpDynamoDBTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: TOTP_TABLE_NAME,
+          AttributeDefinitions: [
+            {
+              AttributeName: 'email',
+              AttributeType: 'S',
+            },
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'email',
+              KeyType: 'HASH',
             },
           ],
           ProvisionedThroughput: {
