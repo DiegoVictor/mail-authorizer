@@ -7,7 +7,7 @@ import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs20.x',
