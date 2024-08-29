@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 
 import auth from '@functions/auth';
+import authorizer from '@functions/authorizer';
 import { secret } from '@libs/generate';
 import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
 
@@ -45,6 +46,7 @@ const serverlessConfiguration: AWS = {
   },
   functions: {
     auth,
+    authorizer,
   },
   package: { individually: true },
   custom: {
