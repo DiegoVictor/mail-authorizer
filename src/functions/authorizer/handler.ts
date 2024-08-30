@@ -4,9 +4,9 @@ import { verify } from 'jsonwebtoken';
 
 export const main = async (event: APIGatewayProxyEventHeaders) => {
   console.log(JSON.stringify(event));
+  const { authorizationToken, methodArn } = event;
 
   try {
-    const { authorizationToken, methodArn } = event;
     const token = authorizationToken.split(' ').pop();
 
     verify(token, process.env.JWT_SECRET);
@@ -24,5 +24,18 @@ export const main = async (event: APIGatewayProxyEventHeaders) => {
       },
     };
   } catch (err) {
+    return {
+      principalId: randomUUID(),
+      policyDocument: {
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Action: 'execute-api:Invoke',
+            Effect: 'Deny',
+            Resource: methodArn,
+          },
+        ],
+      },
+    };
   }
 };
