@@ -21,10 +21,8 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       JWT_SECRET: secret(),
-      NOREPLY_EMAIL_ADDRESS: 'no-reply@mailauthorizer.com',
-      CONTENT_BUCKET: {
-        Ref: 'ContentBucket',
-      },
+      NOREPLY_EMAIL_ADDRESS: "no-reply@mailauthorizer.com",
+      CONTENT_BUCKET: '${self:custom.bucketName}',
     },
     iam: {
       role: {
@@ -60,13 +58,14 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
+    bucketName: 'mailauthorizer-content',
   },
   resources: {
     Resources: {
       ContentBucket: {
         Type: 'AWS::S3::Bucket',
         Properties: {
-          BucketName: 'mailauthorizer-content',
+          BucketName: '${self:custom.bucketName}',
         },
       },
       ContentBucketPolicy: {
