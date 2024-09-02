@@ -1,5 +1,6 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
+import { failure } from '@libs/failure';
 import { FILES_TABLE_NAME } from '@libs/constants';
 
 const generateSignedUrl = async (id: string) => {
@@ -23,6 +24,11 @@ const generateSignedUrl = async (id: string) => {
 
       return null;
     });
+
+  if (!file) {
+    return failure(404, 'File not found');
+  }
+
 };
 
 export { generateSignedUrl };
