@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { z } from 'zod';
+import { generateSignedUrl } from '@use-cases/generate-signed-url';
 
 export const main = async (event: APIGatewayProxyEvent) => {
   console.log(JSON.stringify(event));
@@ -18,4 +19,11 @@ export const main = async (event: APIGatewayProxyEvent) => {
       }),
     };
   }
+
+  const { id } = data;
+  const result = await generateSignedUrl(id);
+  return {
+    statusCode: result.httpCode,
+    body: JSON.stringify(result.response),
+  };
 };
