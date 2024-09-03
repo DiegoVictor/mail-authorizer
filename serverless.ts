@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 
 import auth from '@functions/auth';
+import getSignedUrl from '@functions/files/get-signed-url';
 import authorizer from '@functions/authorizer';
 import { secret } from '@libs/generate';
 import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
@@ -45,6 +46,7 @@ const serverlessConfiguration: AWS = {
   functions: {
     auth,
     authorizer,
+    getSignedUrl,
   },
   package: { individually: true },
   custom: {
