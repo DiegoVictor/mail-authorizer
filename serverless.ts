@@ -116,6 +116,16 @@ const serverlessConfiguration: AWS = {
           SecretString: '${file(./private_key.pem)}',
         },
       },
+      CloudFrontPublicKey: {
+        Type: 'AWS::CloudFront::PublicKey',
+        Properties: {
+          PublicKeyConfig: {
+            Name: 'mailauthorizer-cloudfront-public-key',
+            CallerReference: 'mailauthorizer-cloudfront-public-key',
+            EncodedKey: '${file(./public_key.pem)}',
+          },
+        },
+      },
       FilesDynamoDBTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
