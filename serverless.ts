@@ -136,8 +136,12 @@ const serverlessConfiguration: AWS = {
               AttributeType: 'S',
             },
             {
-              AttributeName: 'createdAt',
+              AttributeName: 'type',
               AttributeType: 'S',
+            },
+            {
+              AttributeName: 'createdAt',
+              AttributeType: 'N',
             },
           ],
           KeySchema: [
