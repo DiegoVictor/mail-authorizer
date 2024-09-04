@@ -108,6 +108,14 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
+      CloudFrontPrivateKeySecret: {
+        Type: 'AWS::SecretsManager::Secret',
+        Properties: {
+          Name: 'mailauthorizer-cloudfront-private-key',
+          Description: 'Private key for CloudFront Distribution',
+          SecretString: '${file(./private_key.pem)}',
+        },
+      },
       FilesDynamoDBTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
