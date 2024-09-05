@@ -139,6 +139,16 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
+      CloudFrontOriginAccessIdentity: {
+        Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity',
+        Properties: {
+          CloudFrontOriginAccessIdentityConfig: {
+            Comment: {
+              Ref: 'AWS::StackName',
+            },
+          },
+        },
+      },
       FilesDynamoDBTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
