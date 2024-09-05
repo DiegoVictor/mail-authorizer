@@ -220,6 +220,20 @@ const serverlessConfiguration: AWS = {
               KeyType: 'RANGE',
             },
           ],
+          GlobalSecondaryIndexes: [
+            {
+              IndexName: 'TypeIndex',
+              KeySchema: [
+                {
+                  AttributeName: 'type',
+                  KeyType: 'HASH',
+                },
+              ],
+              Projection: {
+                ProjectionType: 'ALL',
+              },
+            },
+          ],
           ProvisionedThroughput: {
             ReadCapacityUnits: 1,
             WriteCapacityUnits: 1,
