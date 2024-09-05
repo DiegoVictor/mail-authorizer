@@ -126,6 +126,19 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
+      CloudFrontKeyGroup: {
+        Type: 'AWS::CloudFront::KeyGroup',
+        Properties: {
+          KeyGroupConfig: {
+            Items: [
+              {
+                Ref: 'CloudFrontPublicKey',
+              },
+            ],
+            Name: 'mailauthorizer-cloudfront-key-group',
+          },
+        },
+      },
       FilesDynamoDBTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
