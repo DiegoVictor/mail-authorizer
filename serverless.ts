@@ -149,6 +149,49 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
+      CloudFrontDistribution: {
+        Type: 'AWS::CloudFront::Distribution',
+        Properties: {
+          DistributionConfig: {
+            DefaultCacheBehavior: {
+              AllowedMethods: ['GET', 'HEAD', 'OPTIONS'],
+              ForwardedValues: {
+                Cookies: {
+                  Forward: 'none',
+                },
+                QueryString: false,
+              },
+              TargetOriginId: 'public-content',
+              ViewerProtocolPolicy: 'redirect-to-https',
+              TrustedKeyGroups: [
+                {
+                  Ref: 'CloudFrontKeyGroup',
+                },
+              ],
+            },
+            Enabled: true,
+            Origins: [
+              {
+                DomainName: {
+                  'Fn::GetAtt': ['ContentBucket', 'DomainName'],
+                },
+                Id: 'public-content',
+                S3OriginConfig: {
+                  OriginAccessIdentity: {
+                    'Fn::Join': [
+                      '',
+                      [
+                        'origin-access-identity/cloudfront/',
+                        { Ref: 'CloudFrontOriginAccessIdentity' },
+                      ],
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
       FilesDynamoDBTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
