@@ -29,6 +29,9 @@ const getFiles = async (cursorId?: string) => {
     });
   }
 
+  const dynamodb = new DynamoDB();
+
+  const { Items, LastEvaluatedKey } = await dynamodb.query(args);
 };
 
 export { getFiles };
