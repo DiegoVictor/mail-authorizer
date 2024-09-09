@@ -32,6 +32,18 @@ const getFiles = async (cursorId?: string) => {
   const dynamodb = new DynamoDB();
 
   const { Items, LastEvaluatedKey } = await dynamodb.query(args);
+  if (LastEvaluatedKey) {
+    const { id, createdAt } = unmarshall(LastEvaluatedKey);
+
+    return {
+      data: Items.map((item) => unmarshall(item)),
+      cursorId: Buffer.from(`${id}:${createdAt}`).toString('base64'),
+    };
+  }
+
+  return {
+    data: Items.map((item) => unmarshall(item)),
+  };
 };
 
 export { getFiles };
