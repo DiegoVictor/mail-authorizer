@@ -9,5 +9,11 @@ export default {
         path: '/files',
       },
     },
+    {
+      http: {
+        method: 'post',
+        path: '/files',
+      },
+    },
   ],
 };
