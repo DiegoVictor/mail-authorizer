@@ -12,6 +12,16 @@ export const main = async (event: APIGatewayProxyEvent) => {
         filename: z.string(),
       });
       const { success, error, data } = schema.safeParse(JSON.parse(event.body));
+
+      if (!success) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({
+            message: 'Validation Failed',
+            issues: error.issues,
+          }),
+        };
+      }
     default:
     case 'GET': {
       const { data, cursorId } = await getFiles(
