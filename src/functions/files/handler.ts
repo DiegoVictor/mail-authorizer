@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { getFiles } from '@use-cases/get-files';
 import { z } from 'zod';
+import { generatePresignedUrl } from '@use-cases/generate-presigned-url';
 
 export const main = async (event: APIGatewayProxyEvent) => {
   console.log(JSON.stringify(event));
@@ -22,6 +23,9 @@ export const main = async (event: APIGatewayProxyEvent) => {
           }),
         };
       }
+
+      const { title, filename } = data;
+      const url = await generatePresignedUrl(title, filename);
     default:
     case 'GET': {
       const { data, cursorId } = await getFiles(
