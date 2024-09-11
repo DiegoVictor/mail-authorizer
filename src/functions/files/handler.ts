@@ -26,6 +26,15 @@ export const main = async (event: APIGatewayProxyEvent) => {
 
       const { title, filename } = data;
       const url = await generatePresignedUrl(title, filename);
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          url,
+        }),
+      };
+    }
+
     default:
     case 'GET': {
       const { data, cursorId } = await getFiles(
