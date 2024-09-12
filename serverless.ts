@@ -6,6 +6,7 @@ import authorizer from '@functions/authorizer';
 import files from '@functions/files';
 import { secret } from '@libs/generate';
 import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
+import { postProcessing } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
@@ -49,6 +50,7 @@ const serverlessConfiguration: AWS = {
     authorizer,
     getSignedUrl,
     files,
+    postProcessing,
   },
   package: { individually: true },
   custom: {
