@@ -11,6 +11,11 @@ const postProcessingFileUpload = async (key: string) => {
   if (!file) {
     return failure(404, 'File Not Found');
   }
+
+  const {
+    Metadata: { title },
+  } = file;
+
 };
 
 export { postProcessingFileUpload };
