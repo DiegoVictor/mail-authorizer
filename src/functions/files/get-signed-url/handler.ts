@@ -3,8 +3,6 @@ import { z } from 'zod';
 import { generateSignedUrl } from '@use-cases/generate-signed-url';
 
 export const main = async (event: APIGatewayProxyEvent) => {
-  console.log(JSON.stringify(event));
-
   const schema = z.object({
     id: z.string().uuid(),
   });

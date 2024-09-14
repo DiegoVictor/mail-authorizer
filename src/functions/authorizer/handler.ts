@@ -3,7 +3,6 @@ import { randomUUID } from 'crypto';
 import { verify } from 'jsonwebtoken';
 
 export const main = async (event: APIGatewayProxyEventHeaders) => {
-  console.log(JSON.stringify(event));
   const { authorizationToken, methodArn } = event;
 
   try {

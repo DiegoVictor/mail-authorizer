@@ -4,8 +4,6 @@ import { z } from 'zod';
 import { generatePresignedUrl } from '@use-cases/generate-presigned-url';
 
 export const main = async (event: APIGatewayProxyEvent) => {
-  console.log(JSON.stringify(event));
-
   switch (event.httpMethod) {
     case 'POST': {
       const schema = z.object({
