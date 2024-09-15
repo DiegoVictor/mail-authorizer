@@ -29,7 +29,7 @@ const generateSignedUrl = async (id: string) => {
     });
 
   if (!file) {
-    return failure(404, 'File not found');
+    return failure(404, 'File Not Found');
   }
 
   try {
