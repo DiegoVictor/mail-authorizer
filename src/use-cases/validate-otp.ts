@@ -8,7 +8,7 @@ const validateOtp = async (email: string, otp: string) => {
   const dynamodb = new DynamoDB();
   const totp = await dynamodb
     .getItem({
-      TableName: 'totp',
+      TableName: TOTP_TABLE_NAME,
       Key: marshall({
         email,
       }),
