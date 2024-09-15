@@ -13,7 +13,7 @@ const validateOtp = async (email: string, otp: string) => {
         email,
       }),
     })
-    .then(({ Item }) => unmarshall(Item));
+    .then(({ Item }) => Item && unmarshall(Item));
 
   if (!totp || totp.otp !== otp) {
     return failure(400, 'Invalid code');
