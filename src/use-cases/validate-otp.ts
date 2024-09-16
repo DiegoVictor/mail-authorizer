@@ -5,7 +5,9 @@ import { failure } from '@libs/failure';
 import { success } from '@libs/success';
 
 const validateOtp = async (email: string, otp: string) => {
-  const dynamodb = new DynamoDB();
+  const dynamodb = new DynamoDB({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+  });
   const totp = await dynamodb
     .getItem({
       TableName: TOTP_TABLE_NAME,

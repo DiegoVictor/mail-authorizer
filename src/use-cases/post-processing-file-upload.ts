@@ -6,7 +6,10 @@ import { randomUUID } from 'crypto';
 import { FILES_TABLE_NAME } from '@libs/constants';
 
 const postProcessingFileUpload = async (key: string) => {
-  const s3 = new S3();
+  const s3 = new S3({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+    forcePathStyle: process.env.IS_OFFLINE ? true : undefined,
+  });
 
   const file = await s3.headObject({
     Bucket: process.env.CONTENT_BUCKET,
@@ -21,7 +24,9 @@ const postProcessingFileUpload = async (key: string) => {
     Metadata: { title },
   } = file;
 
-  const dynamodb = new DynamoDB();
+  const dynamodb = new DynamoDB({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+  });
   await dynamodb.putItem({
     TableName: FILES_TABLE_NAME,
     Item: marshall({

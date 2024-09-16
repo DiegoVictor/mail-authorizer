@@ -7,7 +7,9 @@ import { FILES_UPLOAD_FOLDER_NAME } from '@libs/constants';
 const generatePresignedUrl = async (title: string, filename: string) => {
   const key = `${FILES_UPLOAD_FOLDER_NAME}/${randomUUID()}${extname(filename)}`;
 
-  const s3 = new S3();
+  const s3 = new S3({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+  });
   const url = await getSignedUrl(
     s3,
     new PutObjectCommand({

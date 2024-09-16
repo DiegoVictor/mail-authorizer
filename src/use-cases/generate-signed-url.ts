@@ -7,7 +7,9 @@ import { success } from '@libs/success';
 import { FILES_TABLE_NAME } from '@libs/constants';
 
 const generateSignedUrl = async (id: string) => {
-  const dynamodb = new DynamoDB();
+  const dynamodb = new DynamoDB({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+  });
   const file = await dynamodb
     .query({
       TableName: FILES_TABLE_NAME,
@@ -32,7 +34,9 @@ const generateSignedUrl = async (id: string) => {
     return failure(404, 'File Not Found');
   }
 
-  const secretsManager = new SecretsManager();
+  const secretsManager = new SecretsManager({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+  });
   const { SecretString: CLOUDFRONT_PRIVATE_KEY } =
     await secretsManager.getSecretValue({
       SecretId: 'mailauthorizer-cloudfront-private-key',

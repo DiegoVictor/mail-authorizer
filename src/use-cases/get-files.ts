@@ -29,7 +29,9 @@ const getFiles = async (cursorId?: string) => {
     });
   }
 
-  const dynamodb = new DynamoDB();
+  const dynamodb = new DynamoDB({
+    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
+  });
 
   const { Items, LastEvaluatedKey } = await dynamodb.query(args);
   if (LastEvaluatedKey) {
