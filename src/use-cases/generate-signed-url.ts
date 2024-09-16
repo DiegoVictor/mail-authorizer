@@ -32,27 +32,21 @@ const generateSignedUrl = async (id: string) => {
     return failure(404, 'File Not Found');
   }
 
-  try {
-    const secretsManager = new SecretsManager();
-    const { SecretString: CLOUDFRONT_PRIVATE_KEY } =
-      await secretsManager.getSecretValue({
-        SecretId: 'mailauthorizer-cloudfront-private-key',
-      });
-
-    const expiresIn = new Date(Date.now() + 60 * 5 * 1000);
-
-    const url = CloudFront.getSignedUrl({
-      url: `${process.env.CLOUDFRONT_DOMAIN}/${file.key}`,
-      dateLessThan: expiresIn.toISOString(),
-      keyPairId: process.env.CLOUDFRONT_KEY_PAIR_ID,
-      privateKey: CLOUDFRONT_PRIVATE_KEY,
+  const secretsManager = new SecretsManager();
+  const { SecretString: CLOUDFRONT_PRIVATE_KEY } =
+    await secretsManager.getSecretValue({
+      SecretId: 'mailauthorizer-cloudfront-private-key',
     });
 
-    return success(200, { url });
-  } catch (err) {
-    console.error(err);
-    return failure(500, 'Internal Server Error');
-  }
+  const expiresIn = new Date(Date.now() + 60 * 5 * 1000);
+  const url = CloudFront.getSignedUrl({
+    url: `${process.env.CLOUDFRONT_DOMAIN}/${file.key}`,
+    dateLessThan: expiresIn.toISOString(),
+    keyPairId: process.env.CLOUDFRONT_KEY_PAIR_ID,
+    privateKey: CLOUDFRONT_PRIVATE_KEY,
+  });
+
+  return success(200, { url });
 };
 
 export { generateSignedUrl };

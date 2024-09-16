@@ -43,22 +43,17 @@ const sendOtp = async (email: string) => {
     return failure(500, 'Failed to send email. Please try again later.');
   }
 
-  try {
-    const expiresAt = new Date(expires);
+  const expiresAt = new Date(expires);
 
-    const dynamodb = new DynamoDB();
-    await dynamodb.putItem({
-      TableName: TOTP_TABLE_NAME,
-      Item: marshall({
-        email,
-        otp,
-        expiresAt: expiresAt.toISOString(),
-      }),
-    });
-  } catch (err) {
-    console.error(err);
-    return failure(500, 'Internal Server Error');
-  }
+  const dynamodb = new DynamoDB();
+  await dynamodb.putItem({
+    TableName: TOTP_TABLE_NAME,
+    Item: marshall({
+      email,
+      otp,
+      expiresAt: expiresAt.toISOString(),
+    }),
+  });
 
   return success(204);
 };
