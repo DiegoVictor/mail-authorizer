@@ -43,6 +43,13 @@ const generateSignedUrl = async (id: string) => {
     });
 
   const expiresIn = new Date(Date.now() + 60 * 5 * 1000);
+
+  if (process.env.IS_OFFLINE) {
+    return success(200, {
+      url: `http://localhost:4566/${process.env.CONTENT_BUCKET}/${file.key}`,
+    });
+  }
+
   const url = CloudFront.getSignedUrl({
     url: `${process.env.CLOUDFRONT_DOMAIN}/${file.key}`,
     dateLessThan: expiresIn.toISOString(),

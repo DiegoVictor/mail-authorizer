@@ -22,6 +22,12 @@ const generatePresignedUrl = async (title: string, filename: string) => {
     })
   );
 
+  if (process.env.IS_OFFLINE) {
+    return url
+      .replace(`${process.env.CONTENT_BUCKET}.`, '')
+      .replace('files', `${process.env.CONTENT_BUCKET}/files`);
+  }
+
   return url;
 };
 
