@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { getFiles } from '@use-cases/get-files';
 import { z } from 'zod';
+import { getFiles } from '@use-cases/get-files';
 import { generatePresignedUrl } from '@use-cases/generate-presigned-url';
 
 export const main = async (event: APIGatewayProxyEvent) => {
