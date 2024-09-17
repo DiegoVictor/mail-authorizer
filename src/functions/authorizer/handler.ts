@@ -1,5 +1,5 @@
 import { APIGatewayProxyEventHeaders } from 'aws-lambda';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { verify } from 'jsonwebtoken';
 
 export const main = async (event: APIGatewayProxyEventHeaders) => {

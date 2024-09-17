@@ -2,7 +2,7 @@ import { S3 } from '@aws-sdk/client-s3';
 import { failure } from '@libs/failure';
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { FILES_TABLE_NAME } from '@libs/constants';
 
 const postProcessingFileUpload = async (key: string) => {
