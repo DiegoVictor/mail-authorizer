@@ -13,6 +13,7 @@ export default {
       http: {
         method: 'post',
         path: '/files',
+        authorizer: 'authorizer',
       },
     },
   ],
