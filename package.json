@@ -7,7 +7,8 @@
     "node": ">=20.16.0"
   },
   "scripts": {
-    "dev:server": "sls offline"
+    "dev:server": "sls offline",
+    "test": "jest"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.623.0",
