@@ -10,3 +10,5 @@ jspm_packages
 *.pem
 
 volume
+
+tests/coverage
