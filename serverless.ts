@@ -11,7 +11,11 @@ import { postProcessing } from '@functions/index';
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-offline'],
+  plugins: [
+    'serverless-esbuild',
+    'serverless-offline',
+    'serverless-dotenv-plugin',
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs20.x',
