@@ -2,6 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@contracts/*": ["src/contracts/*"],
+      "@infra/*": ["src/infra/*"],
       "@functions/*": ["src/functions/*"],
       "@libs/*": ["src/libs/*"],
       "@use-cases/*": ["src/use-cases/*"],
