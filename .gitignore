@@ -12,3 +12,4 @@ jspm_packages
 volume
 
 tests/coverage
+.env
