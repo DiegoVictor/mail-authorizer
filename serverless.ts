@@ -27,8 +27,9 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      JWT_SECRET: secret(),
-      NOREPLY_EMAIL_ADDRESS: "no-reply@mailauthorizer.com",
+      JWT_SECRET: '${env:JWT_SECRET}',
+      NOREPLY_EMAIL_ADDRESS:
+        '${env:NOREPLY_EMAIL_ADDRESS, "no-reply@mailauthorizer.com"}',
       CONTENT_BUCKET: '${self:custom.bucketName}',
     },
     iam: {
