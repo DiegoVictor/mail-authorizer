@@ -27,18 +27,12 @@ const sendOtp = async (email: string) => {
   );
 
   const expiresAt = new Date(expires);
+  await save({
+    email,
+    otp,
+    expiresAt: expiresAt.toISOString(),
+  });
 
-  const dynamodb = new DynamoDB({
-    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
-  });
-  await dynamodb.putItem({
-    TableName: TOTP_TABLE_NAME,
-    Item: marshall({
-      email,
-      otp,
-      expiresAt: expiresAt.toISOString(),
-    }),
-  });
   return success(204);
 };
 
