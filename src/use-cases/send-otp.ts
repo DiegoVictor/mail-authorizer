@@ -1,10 +1,6 @@
-import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import { SES } from '@aws-sdk/client-ses';
-import { marshall } from '@aws-sdk/util-dynamodb';
 import { TOTP } from 'totp-generator';
-import { failure } from '@libs/failure';
-import { success } from '@libs/success';
-import { TOTP_TABLE_NAME } from '@libs/constants';
+import { success } from '@infra/http/success';
+import { save } from '@infra/repositories/totp';
 import { sendEmail } from '@infra/services/ses';
 
 const sendOtp = async (email: string) => {
