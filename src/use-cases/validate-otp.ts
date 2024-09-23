@@ -3,6 +3,7 @@ import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { TOTP_TABLE_NAME } from '@libs/constants';
 import { failure } from '@libs/failure';
 import { success } from '@libs/success';
+import { deleteByEmail } from '@infra/repositories/totp';
 
 const validateOtp = async (email: string, otp: string) => {
   const dynamodb = new DynamoDB({
@@ -27,12 +28,7 @@ const validateOtp = async (email: string, otp: string) => {
     return failure(400, 'Code expired');
   }
 
-  await dynamodb.deleteItem({
-    TableName: TOTP_TABLE_NAME,
-    Key: marshall({
-      email,
-    }),
-  });
+  await deleteByEmail(email);
 
   return success();
 };

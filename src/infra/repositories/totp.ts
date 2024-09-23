@@ -13,3 +13,11 @@ export const save = (file: ITotp) =>
     TableName: TOTP_TABLE_NAME,
     Item: marshall(file),
   });
+
+export const deleteByEmail = (email: string) =>
+  dynamodb.deleteItem({
+    TableName: TOTP_TABLE_NAME,
+    Key: marshall({
+      email,
+    }),
+  });
