@@ -1,6 +1,3 @@
-import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
-import { TOTP_TABLE_NAME } from '@libs/constants';
 import { failure } from '@libs/failure';
 import { success } from '@libs/success';
 import { deleteByEmail, getOneByEmail } from '@infra/repositories/totp';
