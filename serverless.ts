@@ -7,6 +7,7 @@ import files from '@functions/files';
 import { secret } from '@libs/generate';
 import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
 import { postProcessing } from '@functions/index';
+import { TOTP_TABLE_NAME } from '@infra/repositories/totp';
 
 const serverlessConfiguration: AWS = {
   service: 'mailauthorizer',
