@@ -4,9 +4,8 @@ import auth from '@functions/auth';
 import getSignedUrl from '@functions/files/get-signed-url';
 import authorizer from '@functions/authorizer';
 import files from '@functions/files';
-import { secret } from '@libs/generate';
-import { FILES_TABLE_NAME, TOTP_TABLE_NAME } from '@libs/constants';
 import { postProcessing } from '@functions/index';
+import { FILES_TABLE_NAME } from '@infra/repositories/files';
 import { TOTP_TABLE_NAME } from '@infra/repositories/totp';
 
 const serverlessConfiguration: AWS = {
