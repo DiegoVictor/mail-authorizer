@@ -1,5 +1,5 @@
-import { failure } from '@libs/failure';
-import { success } from '@libs/success';
+import { failure } from '@infra/http/failure';
+import { success } from '@infra/http/success';
 import { deleteByEmail, getOneByEmail } from '@infra/repositories/totp';
 
 const validateOtp = async (email: string, otp: string) => {
