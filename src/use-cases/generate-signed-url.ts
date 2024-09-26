@@ -1,10 +1,10 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import * as CloudFront from '@aws-sdk/cloudfront-signer';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { SecretsManager } from '@aws-sdk/client-secrets-manager';
 import { failure } from '@libs/failure';
 import { success } from '@libs/success';
 import { FILES_TABLE_NAME } from '@libs/constants';
+import { getSignedUrl } from '@infra/services/cloudfront';
 
 const generateSignedUrl = async (id: string) => {
   const dynamodb = new DynamoDB({
@@ -50,12 +50,8 @@ const generateSignedUrl = async (id: string) => {
     });
   }
 
-  const url = CloudFront.getSignedUrl({
-    url: `${process.env.CLOUDFRONT_DOMAIN}/${file.key}`,
-    dateLessThan: expiresIn.toISOString(),
-    keyPairId: process.env.CLOUDFRONT_KEY_PAIR_ID,
-    privateKey: CLOUDFRONT_PRIVATE_KEY,
-  });
+  const expiresIn = new Date(Date.now() + 60 * 5 * 1000);
+  const url = getSignedUrl(file.key, expiresIn.toISOString());
 
   return success(200, { url });
 };
