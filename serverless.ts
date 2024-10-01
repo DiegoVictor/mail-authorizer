@@ -31,6 +31,19 @@ const serverlessConfiguration: AWS = {
       NOREPLY_EMAIL_ADDRESS:
         '${env:NOREPLY_EMAIL_ADDRESS, "no-reply@mailauthorizer.com"}',
       CONTENT_BUCKET: '${self:custom.bucketName}',
+      CLOUDFRONT_KEY_PAIR_ID: {
+        Ref: 'CloudFrontPublicKey',
+      },
+      TOTP_KEY: '${env:TOTP_KEY, ""}',
+      CLOUDFRONT_DOMAIN: {
+        'Fn::Join': [
+          '',
+          [
+            'https://',
+            { 'Fn::GetAtt': ['CloudFrontDistribution', 'DomainName'] },
+          ],
+        ],
+      },
     },
     iam: {
       role: {
