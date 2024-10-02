@@ -50,8 +50,13 @@ const generateSignedUrl = async (id: string) => {
     });
   }
 
-  const expiresIn = new Date(Date.now() + 60 * 5 * 1000);
-  const url = getSignedUrl(file.key, expiresIn.toISOString());
+  const privateKey = await getSecret('mailauthorizer-cloudfront-private-key');
+
+  const expiresAt = new Date(Date.now() + 60 * 5 * 1000);
+  const url = getSignedUrl(
+    { key: file.key, dateLessThan: expiresAt.toISOString() },
+    privateKey
+  );
 
   return success(200, { url });
 };

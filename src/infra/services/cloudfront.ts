@@ -1,15 +1,17 @@
 import * as Cloudfront from '@aws-sdk/cloudfront-signer';
-import { getSecret } from './secrets-manager';
 
-export const getSignedUrl = async (key: string, dateLessThan: string) => {
-  const CLOUDFRONT_PRIVATE_KEY = await getSecret(
-    'mailauthorizer-cloudfront-private-key'
-  );
+interface ISignedUrlParams {
+  key: string;
+  dateLessThan: string;
+}
 
-  return Cloudfront.getSignedUrl({
+export const getSignedUrl = (
+  { key, dateLessThan }: ISignedUrlParams,
+  privateKey: string
+) =>
+  Cloudfront.getSignedUrl({
     url: `${process.env.CLOUDFRONT_DOMAIN}/${key}`,
     dateLessThan,
     keyPairId: process.env.CLOUDFRONT_KEY_PAIR_ID,
-    privateKey: CLOUDFRONT_PRIVATE_KEY,
+    privateKey,
   });
-};
