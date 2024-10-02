@@ -1,34 +1,11 @@
-import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
-import { SecretsManager } from '@aws-sdk/client-secrets-manager';
-import { failure } from '@libs/failure';
-import { success } from '@libs/success';
-import { FILES_TABLE_NAME } from '@libs/constants';
+import { failure } from '@infra/http/failure';
+import { success } from '@infra/http/success';
+import { getOneById } from '@infra/repositories/files';
 import { getSignedUrl } from '@infra/services/cloudfront';
+import { getSecret } from '@infra/services/secrets-manager';
 
 const generateSignedUrl = async (id: string) => {
-  const dynamodb = new DynamoDB({
-    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
-  });
-  const file = await dynamodb
-    .query({
-      TableName: FILES_TABLE_NAME,
-      KeyConditions: {
-        id: {
-          ComparisonOperator: 'EQ',
-          AttributeValueList: [marshall(id)],
-        },
-      },
-      ScanIndexForward: false,
-      Limit: 1,
-    })
-    .then(({ Items }) => {
-      if (Array.isArray(Items) && Items.length > 0) {
-        return unmarshall(Items.shift());
-      }
-
-      return null;
-    });
+  const file = await getOneById(id);
 
   if (!file) {
     return failure(404, 'File Not Found');
