@@ -34,16 +34,6 @@ const generateSignedUrl = async (id: string) => {
     return failure(404, 'File Not Found');
   }
 
-  const secretsManager = new SecretsManager({
-    endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
-  });
-  const { SecretString: CLOUDFRONT_PRIVATE_KEY } =
-    await secretsManager.getSecretValue({
-      SecretId: 'mailauthorizer-cloudfront-private-key',
-    });
-
-  const expiresIn = new Date(Date.now() + 60 * 5 * 1000);
-
   if (process.env.IS_OFFLINE) {
     return success(200, {
       url: `http://localhost:4566/${process.env.CONTENT_BUCKET}/${file.key}`,
