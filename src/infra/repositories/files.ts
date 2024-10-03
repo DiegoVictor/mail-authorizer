@@ -8,6 +8,26 @@ const dynamodb = new DynamoDB({
 
 export const FILES_TABLE_NAME = 'files';
 
+export const getOneById = async (id: string) => {
+  const { Items } = await dynamodb.query({
+    TableName: FILES_TABLE_NAME,
+    KeyConditions: {
+      id: {
+        ComparisonOperator: 'EQ',
+        AttributeValueList: [marshall(id)],
+      },
+    },
+    ScanIndexForward: false,
+    Limit: 1,
+  });
+
+  if (Array.isArray(Items) && Items.length > 0) {
+    return unmarshall(Items.shift());
+  }
+
+  return null;
+};
+
 export const getManyPaginated = async (Limit = 10, cursorId?: string) => {
   const args: QueryCommandInput = {
     TableName: FILES_TABLE_NAME,
