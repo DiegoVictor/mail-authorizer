@@ -70,3 +70,9 @@ export const getManyPaginated = async (Limit = 10, cursorId?: string) => {
     data,
   };
 };
+
+export const save = (file: IFile) =>
+  dynamodb.putItem({
+    TableName: FILES_TABLE_NAME,
+    Item: marshall(file),
+  });
