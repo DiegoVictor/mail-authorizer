@@ -20,3 +20,17 @@ export const getSignedUrl = (
       Metadata,
     })
   );
+
+export const getMetadataByKey = async (key: string) => {
+  const file = await s3.headObject({
+    Bucket: process.env.CONTENT_BUCKET,
+    Key: key,
+  });
+
+  if (!file) {
+    return null;
+  }
+
+  const { Metadata } = file;
+  return Metadata;
+};
