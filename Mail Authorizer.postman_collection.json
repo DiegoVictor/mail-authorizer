@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"diegovictorgonzaga@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"johndoe@example.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"diegovictorgonzaga@gmail.com\",\r\n    \"otp\": \"111065\"\r\n}",
+							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"otp\": \"130787\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -104,14 +104,22 @@
 					],
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "{{token}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
