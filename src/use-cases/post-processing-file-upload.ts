@@ -11,9 +11,7 @@ const postProcessingFileUpload = async (key: string) => {
     return failure(404, 'File Not Found');
   }
 
-  const {
-    Metadata: { title },
-  } = file;
+  const { title } = metadata;
 
   const dynamodb = new DynamoDB({
     endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
