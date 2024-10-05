@@ -7,7 +7,7 @@ import { FILES_TABLE_NAME } from '@libs/constants';
 const postProcessingFileUpload = async (key: string) => {
   const metadata = await getMetadataByKey(key);
 
-  if (!file) {
+  if (!metadata) {
     return failure(404, 'File Not Found');
   }
 
