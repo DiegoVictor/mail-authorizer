@@ -1,10 +1,11 @@
-version: "3.9"
 services:
   localstack:
     container_name: localstack
     image: localstack/localstack
+    env_file:
+      - .env
     ports:
       - "127.0.0.1:4566:4566"
       - "127.0.0.1:4510-4559:4510-4559"
     volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "${LOCALSTACK_VOLUME_DIR:-./scripts}:/var/lib/localstack/scripts"
