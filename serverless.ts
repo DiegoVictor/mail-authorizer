@@ -51,9 +51,12 @@ const serverlessConfiguration: AWS = {
           {
             Effect: 'Allow',
             Action: [
-              'dynamodb:PutItem',
-              'dynamodb:GetItem',
               'dynamodb:DeleteItem',
+              'dynamodb:GetItem',
+              'dynamodb:PutItem',
+              'dynamodb:Query',
+              's3:GetObject',
+              's3:PutObject',
               'secretsmanager:GetSecretValue',
               'ses:SendEmail',
             ],
