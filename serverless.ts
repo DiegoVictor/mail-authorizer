@@ -98,9 +98,7 @@ const serverlessConfiguration: AWS = {
       ContentBucketPolicy: {
         Type: 'AWS::S3::BucketPolicy',
         Properties: {
-          Bucket: {
-            Ref: 'ContentBucket',
-          },
+          Bucket: '${self:custom.bucketName}',
           PolicyDocument: {
             Statement: [
               {
