@@ -215,7 +215,7 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
-      FilesDynamoDBTable: {
+      FilesDynamoDbTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
           TableName: FILES_TABLE_NAME,
@@ -263,7 +263,7 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
-      TotpDynamoDBTable: {
+      TotpDynamoDbTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
           TableName: TOTP_TABLE_NAME,
