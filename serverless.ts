@@ -29,7 +29,7 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       JWT_SECRET: '${env:JWT_SECRET, ""}',
       NOREPLY_EMAIL_ADDRESS:
-        '${env:NOREPLY_EMAIL_ADDRESS, "no-reply@mailauthorizer.com"}',
+        '${env:NOREPLY_EMAIL_ADDRESS, "diegovictorgonzaga@gmail.com"}',
       CONTENT_BUCKET: '${self:custom.bucketName}',
       CLOUDFRONT_KEY_PAIR_ID: {
         Ref: 'CloudFrontPublicKey',
@@ -251,9 +251,17 @@ const serverlessConfiguration: AWS = {
                   AttributeName: 'type',
                   KeyType: 'HASH',
                 },
+                {
+                  AttributeName: 'createdAt',
+                  KeyType: 'RANGE',
+                },
               ],
               Projection: {
                 ProjectionType: 'ALL',
+              },
+              ProvisionedThroughput: {
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1,
               },
             },
           ],
