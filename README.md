@@ -35,3 +35,22 @@ It allows users to authenticate using email address and an OTP code sent through
   * [CloudFront](https://aws.amazon.com/pt/cloudfront)
   * [Secrets Manager](https://aws.amazon.com/pt/secrets-manager)
 
+# Install
+```
+npm install
+```
+Or:
+```
+yarn
+```
+
+## .env
+Rename the `.env.example` in the root directory to `.env` then update it with your settings.
+
+|key|description
+|---|---
+|TOTP_KEY|An alphanumeric random string. Seed used to generate OTP codes.
+|JWT_SECRET|An alphanumeric random string. Used to create signed tokens.
+|NOREPLY_EMAIL_ADDRESS|Email address used to send the OTP code email message.
+|REGION|AWS Region.
+
