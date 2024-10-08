@@ -11,3 +11,27 @@
 It allows users to authenticate using email address and an OTP code sent through email message and once authenticated you can download files content and upload new files. It also has a trigger for new uploaded files that adds the file to AWS DynamoDB and make it is listed in the endpoints. CloudFront was used to caching files.
 
 ![Infrastructure Diagram](https://raw.githubusercontent.com/DiegoVictor/mail-authorizer/refs/heads/main/MailAuthorizer.drawio.png)
+
+## Table of Contents
+* [Requirements](#requirements)
+* [Install](#install)
+  * [.env](#env)
+* [Usage](#usage)
+  * [Routes](#routes)
+    * [Requests](#requests)
+* [Deploy](#deploy)
+* [Running the tests](#running-the-tests)
+  * [Coverage report](#coverage-report)
+
+# Requirements
+* Node.js ^20.16.0
+* Serveless Framework
+* AWS Account
+  * [S3](https://aws.amazon.com/s3)
+  * [Lambda](https://aws.amazon.com/lambda)
+  * [API Gateway](https://aws.amazon.com/api-gateway)
+  * [DynamoDB](https://aws.amazon.com/dynamodb)
+  * [SES](https://aws.amazon.com/pt/ses)
+  * [CloudFront](https://aws.amazon.com/pt/cloudfront)
+  * [Secrets Manager](https://aws.amazon.com/pt/secrets-manager)
+
