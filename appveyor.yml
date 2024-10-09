@@ -1,0 +1,15 @@
+version: 1.0.{build}
+image: Ubuntu2204
+environment:
+  nodejs_version: "22.5.1"
+install:
+  - sh: npm ci
+test_script:
+  - sh: npm run test
+build: off
+on_success:
+  - sh: |
+      curl -Os https://uploader.codecov.io/latest/linux/codecov
+
+      chmod +x codecov
+      ./codecov
