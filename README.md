@@ -108,3 +108,30 @@ Request body:
 }
 ```
 
+# Deploy
+First you will need to generate public and private keys for CloudFront Distribution:
+
+```shell
+openssl genpkey -algorithm RSA -out private_key.pem -aes256
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
+> Once the files exist they will be included into the package by `serverless.ts` configuration file.
+
+Now you are ready to deploy:
+```shell
+sls deploy
+```
+
+# Running the tests
+[Jest](https://jestjs.io/) was the choice to test the app, to run:
+```
+$ yarn test
+```
+Or:
+```
+$ npm run test
+```
+> Run the command in the root folder
+
+## Coverage report
+You can see the coverage report inside `tests/coverage`. They are automatically created after the tests run.
