@@ -54,3 +54,57 @@ Rename the `.env.example` in the root directory to `.env` then update it with yo
 |NOREPLY_EMAIL_ADDRESS|Email address used to send the OTP code email message.
 |REGION|AWS Region.
 
+# Usage
+First we need to spin up localstack container and create the needed resources using `localstack.sh` script:
+```shell
+docker-compose up -d
+docker-compose exec -it localstack sh -c "/var/lib/localstack/scripts/localstack.sh"
+```
+> Or you can access the container and run `sh /var/lib/localstack/scripts/localstack.sh`
+
+Now start the server:
+```shell
+yarn dev:server
+```
+Or:
+```shell
+npm run dev:server
+```
+
+## Routes
+|route|HTTP Method|params|description|authentication
+|:---|:---:|:---:|:---:|:---:
+|`/files`|GET|`cursorId` query parameter.|List files.| -
+|`/file/:id/signed-url`|GET|`id` of a file.|Generate a signed URL to download file content.|Required
+|`/files`|POST|Body with `title` and `filename`.|Generate presigned URL to upload file.|Required
+|`/auth`|POST|Body with `email`.|Send OTP code to the provided email address.| -
+|`/auth`|POST|Body with `email` and `otp`.|Authenticate user and generate JWT token.| -
+
+### Requests
+
+* `POST /files`
+
+Request body:
+```json
+{
+    "title": "Lorem Ipsum",
+    "filename": "sample.mp4"
+}
+```
+
+* `POST /auth`
+
+Request body:
+```json
+{
+    "email": "johndoe@example.com"
+}
+```
+
+```json
+{
+    "email": "johndoe@example.com",
+    "otp": "111065"
+}
+```
+
