@@ -23,7 +23,9 @@ jest.mock('@infra/services/secrets-manager', () => {
   };
 });
 
-const OLD_ENV = process.env;
+const OLD_ENV = {
+  ...process.env,
+};
 
 describe('generateSignedUrl', () => {
   beforeEach(() => {

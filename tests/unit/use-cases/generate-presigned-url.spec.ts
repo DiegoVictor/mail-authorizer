@@ -18,7 +18,9 @@ jest.mock('node:crypto', () => {
   };
 });
 
-const OLD_ENV = process.env;
+const OLD_ENV = {
+  ...process.env,
+};
 
 describe('generatePresignedUrl', () => {
   beforeEach(() => {
