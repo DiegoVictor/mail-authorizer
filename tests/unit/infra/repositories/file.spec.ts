@@ -17,8 +17,9 @@ const mockPutItem = jest.fn();
 
 jest.mock('@aws-sdk/client-dynamodb', () => {
   return {
-    DynamoDB: function DynamoDB() {
+    DynamoDB: function DynamoDB(params: Record<string, string>) {
       return {
+        params,
         query: (args: QueryCommandInput) => mockQuery(args),
         putItem: (args: PutItemCommandInput) => mockPutItem(args),
       };
@@ -26,7 +27,16 @@ jest.mock('@aws-sdk/client-dynamodb', () => {
   };
 });
 
+const OLD_ENV = {
+  ...process.env,
+};
+
 describe('FileRepository', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    process.env = OLD_ENV;
+  });
+
   it('should be able to get one file by id', async () => {
     const id = faker.string.uuid();
     const file = { id };
@@ -138,5 +148,16 @@ describe('FileRepository', () => {
       TableName: FILES_TABLE_NAME,
       Item: marshall(file),
     });
+  });
+
+  it('should be able to redirect DynamoDB endpoint', async () => {
+    process.env.IS_OFFLINE = '1';
+
+    jest.resetModules();
+    const {
+      dynamodb: { params },
+    } = require('../../../../src/infra/repositories/files');
+
+    expect(params.endpoint).toBe('http://localhost:4566');
   });
 });

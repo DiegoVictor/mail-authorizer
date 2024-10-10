@@ -2,7 +2,7 @@ import { DynamoDB, QueryCommandInput } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { IFile, IFileType } from '@contracts/file';
 
-const dynamodb = new DynamoDB({
+export const dynamodb = new DynamoDB({
   endpoint: process.env.IS_OFFLINE ? 'http://localhost:4566' : undefined,
 });
 

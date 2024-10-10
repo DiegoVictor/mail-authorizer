@@ -18,17 +18,27 @@ const mockDeleteItem = jest.fn();
 
 jest.mock('@aws-sdk/client-dynamodb', () => {
   return {
-    DynamoDB: function DynamoDB() {
+    DynamoDB: function DynamoDB(params: Record<string, string>) {
       return {
+        params,
         getItem: (args: GetItemCommandInput) => mockGetItem(args),
-        putItem: (args: PutItemCommandInput) => mockPutItem(args),
         deleteItem: (args: DeleteItemCommandInput) => mockDeleteItem(args),
+        putItem: (args: PutItemCommandInput) => mockPutItem(args),
       };
     },
   };
 });
 
+const OLD_ENV = {
+  ...process.env,
+};
+
 describe('TotpRepository', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    process.env = OLD_ENV;
+  });
+
   it('should be able to get one totp by email', async () => {
     const email = faker.internet.email();
     const totp = { email };
@@ -48,6 +58,8 @@ describe('TotpRepository', () => {
 
   it('should not be able to get one totp by email', async () => {
     mockGetItem.mockResolvedValue({ Item: undefined });
+
+    process.env.IS_OFFLINE = '1';
 
     const email = faker.internet.email();
     const response = await getOneByEmail(email);
@@ -81,5 +93,16 @@ describe('TotpRepository', () => {
         email,
       }),
     });
+  });
+
+  it('should be able to redirect DynamoDB endpoint', async () => {
+    process.env.IS_OFFLINE = '1';
+
+    jest.resetModules();
+    const {
+      dynamodb: { params },
+    } = require('../../../../src/infra/repositories/totp');
+
+    expect(params.endpoint).toBe('http://localhost:4566');
   });
 });
