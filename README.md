@@ -5,7 +5,7 @@
 [![babel](https://img.shields.io/badge/babel-7.25.2-F9DC3E?style=flat-square&logo=babel)](https://babeljs.io/)
 [![jest](https://img.shields.io/badge/jest-29.7.0-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
 [![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/mail-authorizer?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/mail-authorizer)
-[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/DiegoVictor/mail-authorizer/main/LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/DiegoVictor/mail-authorizer/refs/heads/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 It allows users to authenticate using email address and an OTP code sent through email message and once authenticated you can download files content and upload new files. It also has a trigger for new uploaded files that adds the file to AWS DynamoDB and make it is listed in the endpoints. CloudFront was used to caching files.
