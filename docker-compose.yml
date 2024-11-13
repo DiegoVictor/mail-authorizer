@@ -2,6 +2,7 @@ services:
   localstack:
     container_name: localstack
     image: localstack/localstack
+    restart: unless-stopped
     env_file:
       - .env
     ports:
