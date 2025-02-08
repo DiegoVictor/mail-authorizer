@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e2aa7fc0-ac77-45cc-bea7-ebedfdb3dd12",
+		"_postman_id": "30e987a8-9224-43d6-8c4e-b176121dd41f",
 		"name": "Mail Authorizer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "4346128"
@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"otp\": \"130787\"\r\n}",
+							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"otp\": \"702366\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -245,7 +245,14 @@
 					"name": "Get File",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -297,7 +304,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "",
+			"value": "http://localhost:3000/dev",
 			"type": "string"
 		},
 		{
@@ -307,15 +314,15 @@
 		},
 		{
 			"key": "token",
-			"value": ""
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpZWdvdmljdG9yZ29uemFnYSsxQGdtYWlsLmNvbSIsImlhdCI6MTczOTAyNDQ2MiwiZXhwIjoxNzM5MDI4MDYyfQ.silCcjHzMrwTinzpiTQ1o3tpvArKbTKAqFgUt8EG0Bc"
 		},
 		{
 			"key": "url",
-			"value": ""
+			"value": "http://localhost:4566/mailauthorizer-content/files/2345efb6-12d5-4d8e-8699-0497225f9300.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIATWVL4JLDXQCH46PS%2F20250208%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250208T142111Z&X-Amz-Expires=900&X-Amz-Signature=b05c2e29bf71e94b7d2f9c5e0f769e62584f4247e0518513acf8571ab1888ea2&X-Amz-SignedHeaders=host&x-amz-meta-filename=sample.mp4&x-amz-meta-title=eveniet%20pariatur%20aut&x-id=PutObject"
 		},
 		{
 			"key": "fileId",
-			"value": ""
+			"value": "0b6b0221-45c5-4ba9-ad2b-300b64c72d17"
 		}
 	]
 }
