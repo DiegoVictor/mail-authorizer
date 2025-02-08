@@ -1,0 +1,223 @@
+{
+  "openapi":"3.0.3",
+  "info": {
+    "title":"Mail Authrizer",
+    "version":"1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://raw.githubusercontent.com/DiegoVictor/mail-authorizer/refs/heads/main/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url":"http://localhost:3000/dev"
+    }
+  ],
+  "paths": {
+    "/files": {
+      "get": {
+        "tags": ["Files"],
+        "responses": {
+          "200": {
+            "description": "List files.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "cursorId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/File"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": "0b6b0221-45c5-4ba9-ad2b-300b64c72d17",
+                      "type": "VIDEO",
+                      "title": "Asian Skater Boys",
+                      "key": "files/8af6860c-d544-4a6f-abcd-49871dde7bbd.mp4",
+                      "createdAt": 1725059895044
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Files"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "filename": {
+                    "type": "string"
+                  }
+                },
+                "required": ["type", "title"]
+              },
+              "example": {
+                "title": "Asian Skater Boys",
+                "filename": "8af6860c-d544-4a6f-abcd-49871dde7bbd.mp4"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Generate presigned URL to upload file.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "url": "https://mailauthorizer-content.s3.us-east-1.amazonaws.com/files/2345efb6-12d5-4d8e-8699-0497225f9300.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIATWVL4JLDXQCH46PS%2F20250208%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250208T142111Z&X-Amz-Expires=900&X-Amz-Signature=b05c2e29bf71e94b7d2f9c5e0f769e62584f4247e0518513acf8571ab1888ea2&X-Amz-SignedHeaders=host&x-amz-meta-filename=sample.mp4&x-amz-meta-title=eveniet%20pariatur%20aut&x-id=PutObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/files/{id}/signed-url": {
+      "get": {
+        "tags": ["Files"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generate a signed URL to download file content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "url": "https://mailauthorizer-content.s3.us-east-1.amazonaws.com/files/8af6860c-d544-4a6f-abcd-49871dde7bbd.mp4"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "otp": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email"]
+              },
+              "examples": {
+                "Get TOTP Code": {
+                  "value": {
+                    "email": "johndoe@example.com"
+                  }
+                },
+                "Authenticate Using TOTP": {
+                  "value": {
+                    "email": "johndoe@example.com",
+                    "otp": "948804"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Send OTP code to the provided email address."
+          },
+          "200": {
+            "description": "Authenticate user and generate JWT token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzkwMjM4MjMsImV4cCI6MTczOTAyNzQyM30.TT0r6lMWjN0D3bsvNMbFJqBsOqFZM5oONu5bhcnmYLg"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "File": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["VIDEO"]
+          },
+          "title": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
