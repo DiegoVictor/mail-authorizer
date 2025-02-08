@@ -50,18 +50,26 @@ Rename the `.env.example` in the root directory to `.env` then update it with yo
 
 |key|description
 |---|---
-|TOTP_KEY|An alphanumeric random string. Seed used to generate OTP codes.
+|TOTP_KEY|An alphanumeric random string. Seed used to generate OTP codes. Base32 string, ie. only containing characters matching (A-Z, 2-7, =).
 |JWT_SECRET|An alphanumeric random string. Used to create signed tokens.
 |NOREPLY_EMAIL_ADDRESS|Email address used to send the OTP code email message.
 |REGION|AWS Region.
 
 # Usage
-First we need to spin up localstack container and create the needed resources using `localstack.sh` script:
+First you will need to generate public and private keys for CloudFront Distribution:
+
+```shell
+openssl genpkey -algorithm RSA -out private_key.pem
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
+> Once the files exist they will be included into the package by `serverless.ts` configuration file during deployment too.
+
+Now we need to spin up localstack container and create the needed resources using `localstack.sh` script:
 ```shell
 docker-compose up -d
 docker-compose exec -it localstack sh -c "/var/lib/localstack/scripts/localstack.sh"
 ```
-> Or you can access the container and run `sh /var/lib/localstack/scripts/localstack.sh`
+> Or you can access the container and run `sh /var/lib/localstack/scripts/localstack.sh`.
 
 Now start the server:
 ```shell
@@ -76,7 +84,7 @@ npm run dev:server
 |route|HTTP Method|params|description|authentication
 |:---|:---:|:---:|:---:|:---:
 |`/files`|GET|`cursorId` query parameter.|List files.| -
-|`/file/:id/signed-url`|GET|`id` of a file.|Generate a signed URL to download file content.|Required
+|`/files/:id/signed-url`|GET|`id` of a file.|Generate a signed URL to download file content.|Required
 |`/files`|POST|Body with `title` and `filename`.|Generate presigned URL to upload file.|Required
 |`/auth`|POST|Body with `email`.|Send OTP code to the provided email address.| -
 |`/auth`|POST|Body with `email` and `otp`.|Authenticate user and generate JWT token.| -
@@ -110,15 +118,7 @@ Request body:
 ```
 
 # Deploy
-First you will need to generate public and private keys for CloudFront Distribution:
-
-```shell
-openssl genpkey -algorithm RSA -out private_key.pem -aes256
-openssl rsa -pubout -in private_key.pem -out public_key.pem
-```
-> Once the files exist they will be included into the package by `serverless.ts` configuration file.
-
-Now you are ready to deploy:
+Actually you are ready to deploy:
 ```shell
 sls deploy
 ```
