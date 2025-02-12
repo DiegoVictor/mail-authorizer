@@ -54,6 +54,11 @@
       },
       "post": {
         "tags": ["Files"],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -102,6 +107,11 @@
     "/files/{id}/signed-url": {
       "get": {
         "tags": ["Files"],
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -127,6 +137,19 @@
                 },
                 "example": {
                   "url": "https://mailauthorizer-content.s3.us-east-1.amazonaws.com/files/8af6860c-d544-4a6f-abcd-49871dde7bbd.mp4"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseError"
+                },
+                "example": {
+                  "message": "File Not Found."
                 }
               }
             }
@@ -190,6 +213,51 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ValidationError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ResponseError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "Invalid code": {
+                    "value": {
+                      "message": "Invalid code"
+                    }
+                  },
+                  "Code expired": {
+                    "value": {
+                      "message": "Code expired."
+                    }
+                  },
+                  "Validation failed": {
+                    "value": {
+                      "message": "Validation Failed",
+                      "issues": [
+                        {
+                          "code": "invalid_type",
+                          "expected": "string",
+                          "received": "undefined",
+                          "path": [
+                              "email"
+                          ],
+                          "message": "Required"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -217,6 +285,52 @@
             "type": "number"
           }
         }
+      },
+      "ResponseError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "expected": {
+                  "type": "string"
+                },
+                "received": {},
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "type": "http"
       }
     }
   }
