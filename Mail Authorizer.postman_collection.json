@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "30e987a8-9224-43d6-8c4e-b176121dd41f",
+		"_postman_id": "7920d35a-c295-4a6d-b5f2-b4c3b0d3d6f9",
 		"name": "Mail Authorizer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "4346128"
@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"otp\": \"702366\"\r\n}",
+							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"otp\": \"757943\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -104,22 +104,14 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "{{token}}",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
@@ -184,7 +176,7 @@
 			]
 		},
 		{
-			"name": "Public",
+			"name": "Files",
 			"item": [
 				{
 					"name": "Get Files",
@@ -195,14 +187,16 @@
 								"exec": [
 									"const response = pm.response.json();\r",
 									"\r",
-									"const { cursorId, data } = response;\r",
-									"if (cursorId) {\r",
-									"    pm.collectionVariables.set('cursorId', cursorId);\r",
+									"if (response.cursorId) {\r",
+									"    const { cursorId } = response;\r",
+									"    if (cursorId) {\r",
+									"        pm.collectionVariables.set('cursorId', cursorId);\r",
+									"    }\r",
 									"}\r",
 									"\r",
-									"if (data.length > 0) {\r",
-									"    const [{ id }] = data;\r",
-									"    pm.collectionVariables.set('fileId', id)\r",
+									"if (response.data && response.data.length > 0) {\r",
+									"    const [{ id }] = response.data;\r",
+									"    pm.collectionVariables.set('fileId', id);\r",
 									"}"
 								],
 								"type": "text/javascript",
@@ -215,13 +209,7 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/files",
 							"host": [
@@ -245,14 +233,7 @@
 					"name": "Get File",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [
