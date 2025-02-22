@@ -366,6 +366,12 @@
                   "type": "string"
                 },
                 "received": {},
+                "path": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "message": {
                   "type": "string"
                 }
