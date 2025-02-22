@@ -100,6 +100,30 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Validation Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "example": {
+                  "message": "Validation Failed",
+                  "issues": [
+                    {
+                      "code": "invalid_type",
+                      "expected": "string",
+                      "received": "undefined",
+                      "path": [
+                        "title"
+                      ],
+                      "message": "Required"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -137,6 +161,30 @@
                 },
                 "example": {
                   "url": "https://mailauthorizer-content.s3.us-east-1.amazonaws.com/files/8af6860c-d544-4a6f-abcd-49871dde7bbd.mp4"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "example": {
+                  "message": "Validation Failed",
+                  "issues": [
+                    {
+                      "code": "invalid_type",
+                      "expected": "string",
+                      "received": "undefined",
+                      "path": [
+                        "id"
+                      ],
+                      "message": "Required"
+                    }
+                  ]
                 }
               }
             }
