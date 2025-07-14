@@ -1,7 +1,5 @@
 version: 1.0.{build}
 image: Ubuntu2204
-environment:
-  nodejs_version: "22.5.1"
 install:
   - sh: npm ci
 test_script:
